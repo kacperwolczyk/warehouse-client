@@ -1,0 +1,32 @@
+<div class="card my-5">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+      <div class="form-group">
+        <label for="name">Nazwa</label>
+        <input type="text" [(ngModel)]="product.name" 
+          class="form-control" id="name" name="name" placeholder="Nazwa"
+          required #name="ngModel">
+      </div>
+	  <div [hidden]="!name.pristine" class="alert alert-danger">Nazwa jest wymagana</div>
+	  <div class="form-group">
+	    <label for="category">Kategoria</label>
+	  	<select [(ngModel)]="product.category" class="form-control" id="category" name="category" required #category="ngModel">
+		  <option class="form-control" *ngFor="let category of categories" [ngValue]="category"> {{category.name}}</option>
+		</select>
+	  </div>
+	  <div [hidden]="!category.pristine" class="alert alert-danger">Kategoria jest wymagana</div><br>
+	  <div *ngFor="let parameter of product.parameters">
+		<div class="form-group">
+			<label for="name">Parametr</label> 		
+			<button type="button" (click)="remove(parameter)" class="btn btn-danger" style="margin: 20px;">Usuń parametr</button>
+			<input type="text" [(ngModel)]="parameter.name" 
+				class="form-control" id="parameter.name" name="parameter.name" placeholder="Nazwa" ><br>
+			<input type="text" [(ngModel)]="parameter.content" 
+				class="form-control" id="parameter.content" name="parameter.content" placeholder="Wartość">
+		</div>
+	  </div>
+	  <button type="button" (click)="add()" class="btn btn-info">Dodaj parametr</button><br><br>
+      <button type="submit" [disabled]="!productForm.form.valid" class="btn btn-success">Dodaj produkt</button>
+    </form>
+  </div>
+</div>

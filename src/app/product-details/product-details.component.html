@@ -1,0 +1,43 @@
+<div class="card my-5">
+  <div class="card-body">
+	<div *ngIf="product" style="width: 100%;">
+		<div style="width: 20%; float: left;">
+			<h5>Nazwa</h5>
+			<p>{{ product.name }}</p>			
+			<h5>Kategoria</h5>
+			<p>{{ product.category.name }}</p>			
+			<h5>Status</h5>
+			<p [ngStyle]="{
+			        'color' : product.status === 'SPRAWNY' ? 'green' : 'red'}"> {{ product.status }}
+					
+			</p>	
+			<div *ngFor="let parameter of product.parameters">
+				<h5> {{ parameter.name }} </h5>
+				<p> {{ parameter.content }} </p>
+			</div>				
+		</div>
+		<div style="width: 40%; float: left;">
+			<form (ngSubmit)="onChangeStatus()">
+				<button type="submit" class="btn btn-success">Zmień status produktu</button>
+			</form>
+			<br><br>
+			<h5>Komentarze:</h5>
+			<div *ngFor="let comment of product.comments">
+				<p>
+					-{{ comment.content }}
+				</p>
+			</div>	
+		</div>
+		<form (ngSubmit)="onComment()" #commentForm="ngForm" style="width: 40%; float: left;">
+			<div class="form-group">
+				<label for="comment">Dodaj komentarz</label>
+					<input type="text" [(ngModel)]="comment.content" 
+					class="form-control" id="content" name="content" placeholder="Treść komentarza"
+					required #content="ngModel">
+			</div>
+			<div [hidden]="!content.pristine" class="alert alert-danger">Treść komentarza jest wymagana</div>
+			<button type="submit" [disabled]="!commentForm.form.valid" class="btn btn-success">Dodaj komentarz</button>
+		</form>	
+	</div>
+  </div>
+</div>
